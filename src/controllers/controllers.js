@@ -82,10 +82,10 @@ const getPokemonDetailsByName = async (req, res) => {
         const apiUrl = `https://pokeapi.co/api/v2/pokemon/${name}`;
         const response = await axios.get(apiUrl);
         const pokemonDetails = response.data;
-        
+
         const pokemonType = pokemonDetails.types[0].type.name;
         const pokemonListByType = await getPokemonByType(pokemonType);
-        
+
         res.json({ details: pokemonDetails, similarPokemons: pokemonListByType });
     } catch (error) {
         console.error('Error al obtener detalles del Pokémon:', error);
