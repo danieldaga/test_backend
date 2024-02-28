@@ -3,9 +3,6 @@ const { parse } = require('json2csv');
 const fs = require('fs');
 const path = require('path');
 
-const test = (req, res) => {
-    res.send("testAPI")
-}
 
 const findByName = async (req, res) => {
     try {
@@ -15,6 +12,21 @@ const findByName = async (req, res) => {
         res.json(response.data)
     } catch (error) {
         console.error('Error al llamar a la API:', error);
+        res.status(500).json({ error: 'Ocurrió un error al procesar tu solicitud.' });
+    }
+}
+
+const getPokemonMovesByName = async (req, res) => {
+    try {
+        const pokemonName = req.params.name;
+        const apiUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
+        const response = await axios.get(apiUrl);
+        const pokemonMoves = response.data.moves.map(pokemon => ({
+            move: pokemon.move
+        }));
+        res.json(pokemonMoves);
+    } catch (error) {
+        console.error('Error al obtener la lista de movimientos del Pokémon:', error);
         res.status(500).json({ error: 'Ocurrió un error al procesar tu solicitud.' });
     }
 }
@@ -52,8 +64,9 @@ const findByColorToCsv = async (req, res) => {
         res.status(500).json({ error: 'Ocurrió un error al procesar tu solicitud.' });
     }
 }
+
 module.exports = {
-    test,
+    getPokemonMovesByName,
     findByName,
     findByColorToCsv
 };
