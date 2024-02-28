@@ -1,12 +1,12 @@
 const { Router } = require("express");
 
-const { findByName, test, findByColor } = require("../controllers/controllers.js")
+const { findByName, test, findByColorToCsv } = require("../controllers/controllers.js")
 
 const router = Router()
 
+router.get('/test', test)
 router.get('/pokemon/:name', findByName)
-router.get('/PRUEBA', test)
-router.get('/pokemon-color/:color', findByColor)
+router.get('/pokemon-color/:color', findByColorToCsv)
 
 
 module.exports = router
