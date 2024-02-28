@@ -34,8 +34,6 @@
 
 7. La API estará disponible en la dirección: `http://localhost:3000`. Puedes acceder a ella desde tu navegador o utilizando herramientas como Postman para realizar solicitudes HTTP.
 
-8. ¡Listo! Ahora puedes comenzar a desarrollar tu API utilizando Express.
-
 
 Este proyecto proporciona varios endpoints para interactuar con la PokeAPI y obtener información sobre Pokémon.
 
