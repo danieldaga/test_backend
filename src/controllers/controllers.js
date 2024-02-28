@@ -65,8 +65,37 @@ const findByColorToCsv = async (req, res) => {
     }
 }
 
+const getPokemonByType = async (type) => {
+    try {
+        const apiUrl = `https://pokeapi.co/api/v2/type/${type}`;
+        const response = await axios.get(apiUrl);
+        return response.data.pokemon;
+    } catch (error) {
+        console.error('Error al obtener la lista de Pokémon por tipo:', error);
+        return [];
+    }
+}
+
+const getPokemonDetailsByName = async (req, res) => {
+    try {
+        const name = req.params.name;
+        const apiUrl = `https://pokeapi.co/api/v2/pokemon/${name}`;
+        const response = await axios.get(apiUrl);
+        const pokemonDetails = response.data;
+        
+        const pokemonType = pokemonDetails.types[0].type.name;
+        const pokemonListByType = await getPokemonByType(pokemonType);
+        
+        res.json({ details: pokemonDetails, similarPokemons: pokemonListByType });
+    } catch (error) {
+        console.error('Error al obtener detalles del Pokémon:', error);
+        res.status(500).json({ error: 'Ocurrió un error al procesar tu solicitud.' });
+    }
+}
+
 module.exports = {
     getPokemonMovesByName,
     findByName,
-    findByColorToCsv
+    findByColorToCsv,
+    getPokemonDetailsByName
 };
